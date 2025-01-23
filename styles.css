@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    color: #0056b3;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.search-bar select,
+.search-bar input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.search-bar select {
+    width: 20%;
+}
+
+.search-bar input {
+    width: 50%;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #0056b3;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #004494;
+}
+
+.crypto-list, .crypto-details {
+    margin: 20px 0;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.crypto-list h2, .crypto-details h2 {
+    color: #0056b3;
+}
+
+.crypto-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.crypto-list ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.crypto-list ul li:last-child {
+    border-bottom: none;
+}
+
+.crypto-details {
+    text-align: center;
+}
+
+#stockDetails {
+    font-size: 18px;
+    margin-top: 10px;
+}
