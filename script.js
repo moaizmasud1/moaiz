@@ -1,60 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const stockInput = document.getElementById('stockInput');
-    const stockDetails = document.getElementById('stockDetails');
-    const cryptoDropdown = document.getElementById('cryptoDropdown');
+    const dogDetails = document.getElementById('dogDetails');
+    const dogFactsDropdown = document.getElementById('dogFactsDropdown');
 
-    // Add Litecoin and other cryptocurrencies to track
-    const defaultCryptos = ['bitcoin', 'ethereum', 'dogecoin', 'litecoin', 'ripple'];
-    const availableCryptos = loadFromLocalStorage('availableCryptos', defaultCryptos);
+    // Load dog facts from localStorage or fetch new ones
+    const availableDogFacts = loadFromLocalStorage('availableDogFacts', []);
 
-    // Populate cryptocurrency dropdown
-    cryptoDropdown.innerHTML = '<option value="">Select a cryptocurrency</option>'; // Add placeholder
-    availableCryptos.forEach(crypto => {
-        const option = document.createElement('option');
-        option.value = crypto;
-        option.textContent = crypto.charAt(0).toUpperCase() + crypto.slice(1); // Capitalize first letter
-        cryptoDropdown.appendChild(option);
-    });
-
-    // Load last searched cryptocurrency from local storage
-    const lastSearched = loadFromLocalStorage('lastSearchedCrypto', null);
-    if (lastSearched) {
-        stockDetails.textContent = `Last searched cryptocurrency: ${lastSearched}`;
+    if (availableDogFacts.length === 0) {
+        fetchDogFacts(); // Fetch dog facts from the API if nothing is stored in localStorage
+    } else {
+        populateDropdown(availableDogFacts); // Populate the dropdown with stored dog facts
     }
 
     // Search button click event
     document.getElementById('searchButton').addEventListener('click', function () {
-        const cryptoSymbol = cryptoDropdown.value || stockInput.value.trim().toLowerCase();
+        const selectedFact = dogFactsDropdown.value;
 
-        if (!cryptoSymbol) {
-            stockDetails.textContent = 'Please enter a cryptocurrency name or symbol.';
+        if (!selectedFact) {
+            dogDetails.textContent = 'Please select a dog fact from the dropdown.';
             return;
         }
 
-        // Fetch cryptocurrency data from CoinGecko API
-        fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cryptoSymbol}&vs_currencies=usd`)
-            .then(response => response.json())
-            .then(data => {
-                const cryptoData = data[cryptoSymbol];
+        // Display the selected dog fact
+        dogDetails.textContent = selectedFact;
 
-                if (cryptoData) {
-                    // Display the cryptocurrency price
-                    stockDetails.textContent = `${cryptoSymbol.toUpperCase()} Price: $${cryptoData.usd}`;
-
-                    // Save the last searched cryptocurrency to localStorage
-                    saveToLocalStorage('lastSearchedCrypto', `${cryptoSymbol.toUpperCase()} Price: $${cryptoData.usd}`);
-                } else {
-                    stockDetails.textContent = 'Cryptocurrency not found. Please try another symbol.';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching cryptocurrency data:', error);
-                stockDetails.textContent = 'Error fetching data. Please try again later.';
-            });
+        // Save the selected dog fact in localStorage (so we can display it on next load)
+        saveToLocalStorage('lastSearchedDogFact', selectedFact);
     });
 
-    // Save available cryptocurrencies to local storage
-    saveToLocalStorage('availableCryptos', availableCryptos);
+    // Function to fetch dog facts from the API
+    function fetchDogFacts() {
+        fetch('https://dog-api.kinduff.com/api/facts?number=6')
+            .then(response => response.json())
+            .then(data => {
+                const dogFacts = data.facts;
+
+                // Store the fetched dog facts in localStorage
+                saveToLocalStorage('availableDogFacts', dogFacts);
+                
+                // Populate the dropdown with dog facts
+                populateDropdown(dogFacts);
+            })
+            .catch(error => {
+                console.error('Error fetching dog facts:', error);
+                dogDetails.textContent = 'Error fetching data. Please try again later.';
+            });
+    }
+
+    // Function to populate the dropdown with dog facts
+    function populateDropdown(facts) {
+        dogFactsDropdown.innerHTML = '<option value="">Select a dog fact</option>'; // Add placeholder
+        facts.forEach(fact => {
+            const option = document.createElement('option');
+            option.value = fact;
+            option.textContent = fact.charAt(0).toUpperCase() + fact.slice(1); // Capitalize first letter
+            dogFactsDropdown.appendChild(option);
+        });
+    }
+
+    // Check and display the last searched dog fact from localStorage
+    const lastSearched = loadFromLocalStorage('lastSearchedDogFact', null);
+    if (lastSearched) {
+        dogDetails.textContent = `Last searched dog fact: ${lastSearched}`;
+    }
 });
 
 // Helper function to load data from local storage
