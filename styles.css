@@ -1,3 +1,10 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -59,37 +66,20 @@ header h1 {
     background-color: #004494;
 }
 
-.crypto-list, .crypto-details {
+.dog-details {
     margin: 20px 0;
     padding: 20px;
-    background: #fff;
+    background: #b60c0c;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
-.crypto-list h2, .crypto-details h2 {
+.dog-details h2 {
     color: #0056b3;
 }
 
-.crypto-list ul {
-    list-style: none;
-    padding: 0;
-}
-
-.crypto-list ul li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.crypto-list ul li:last-child {
-    border-bottom: none;
-}
-
-.crypto-details {
-    text-align: center;
-}
-
-#stockDetails {
+#dogDetails {
     font-size: 18px;
     margin-top: 10px;
+    background-color: aqua;
 }
